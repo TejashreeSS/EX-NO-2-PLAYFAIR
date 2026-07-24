@@ -28,7 +28,7 @@ STEP-4: Group the plain text in pairs and match the corresponding corner letters
 STEP-5: Display the obtained cipher text.
 
 
-Program:
+## Program:
 ```
 #include <stdio.h>
 #include <string.h>
@@ -115,9 +115,11 @@ int main()
 }
 ```
 
-Output:
+## Output:
 
 <img width="1442" height="672" alt="image" src="https://github.com/user-attachments/assets/b664f538-230a-4767-abac-74a9401466c3" />
 
-Result:
+
+## Result:
+
 Thus, the C program for the Playfair Cipher was successfully executed.
