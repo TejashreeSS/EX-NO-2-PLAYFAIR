@@ -1,11 +1,7 @@
 ## EX. NO:2 IMPLEMENTATION OF PLAYFAIR CIPHER
 
- 
 
 ## AIM:
- 
-
- 
 
 To write a C program to implement the Playfair Substitution technique.
 
@@ -32,12 +28,93 @@ STEP-4: Group the plain text in pairs and match the corresponding corner letters
 STEP-5: Display the obtained cipher text.
 
 
-
-
 Program:
+```
+#include <stdio.h>
+#include <string.h>
 
+#define SIZE 5
 
+char keyword[] = "MONARCHY";
 
+char key[SIZE][SIZE] =
+{
+    {'M','O','N','A','R'},
+    {'C','H','Y','B','D'},
+    {'E','F','G','I','K'},
+    {'L','P','Q','S','T'},
+    {'U','V','W','X','Z'}
+};
 
+void find(char ch, int *r, int *c)
+{
+    for (int i = 0; i < SIZE * SIZE; i++)
+        if (key[i / SIZE][i % SIZE] == ch)
+        {
+            *r = i / SIZE;
+            *c = i % SIZE;
+            return;
+        }
+}
+
+void playfair(char *in, char *out, int enc)
+{
+    int r1, c1, r2, c2, s = enc ? 1 : -1;
+
+    for (int i = 0; in[i]; i += 2)
+    {
+        find(in[i], &r1, &c1);
+        find(in[i + 1], &r2, &c2);
+
+        if (r1 == r2)
+        {
+            out[i] = key[r1][(c1 + s + SIZE) % SIZE];
+            out[i + 1] = key[r2][(c2 + s + SIZE) % SIZE];
+        }
+        else if (c1 == c2)
+        {
+            out[i] = key[(r1 + s + SIZE) % SIZE][c1];
+            out[i + 1] = key[(r2 + s + SIZE) % SIZE][c2];
+        }
+        else
+        {
+            out[i] = key[r1][c2];
+            out[i + 1] = key[r2][c1];
+        }
+    }
+
+    out[strlen(in)] = '\0';
+}
+
+int main()
+{
+    char text[] = "TEJASHREE S S";
+    char encrypted[100], decrypted[100];
+
+    printf("Key: %s\n\n", keyword);
+
+    printf("Playfair Key Matrix:\n");
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = 0; j < SIZE; j++)
+        {
+            printf("%c ", key[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\nPlaintext  : %s\n", text);
+
+    playfair(text, encrypted, 1);
+    printf("Encrypted : %s\n", encrypted);
+
+    playfair(encrypted, decrypted, 0);
+    printf("Decrypted : %s\n", decrypted);
+
+    return 0;
+}
+```
 
 Output:
+
+<img width="1442" height="672" alt="image" src="https://github.com/user-attachments/assets/b664f538-230a-4767-abac-74a9401466c3" />
